@@ -6,5 +6,7 @@ other/*
 productions/
 bucket/Sketchy/
 sketchy_production/
+!sketchy_production/fastapi_sketchy.py
+!sketchy_production/Docekrfile
 .env
 .envrc
