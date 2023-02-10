@@ -1,0 +1,10 @@
+.streamlit/
+other/*
+!other/dramatic.mp3
+!other/resume.pdf
+!other/cover_letter.pdf
+productions/
+bucket/Sketchy/
+sketchy_production/
+.env
+.envrc
