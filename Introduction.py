@@ -23,33 +23,56 @@ def present_photos(category_directory_path):
 
     return None
 
-st.header('I am not a front-end developer or a designer, but I still hope that this website will show you who I am.')
-st.markdown('''
-            ### I am excited to start my data science path.
-            I chose to be in data science because for a tech profession with never-ending iner-disciplinary learning.
+st.header('I hope that this website will show you who I am (Even that I am not a designer or front-end developer)')
+with st.expander('Why data science?'):
+    st.markdown('''
+            #### I am excited to start my data science path.
+            - I chose to be in data science because it is a tech profession with never-ending inter-disciplinary learning opportunities.
 
-            A Flexible, cross-industries possibilities.
+            - It has a flexible, cross-industries possibilities.
 
-            And an ability to make a real impact, and possibilites in impact-tech.
+            - It has the ability to make a real impact, and can be found in impact-tech.
 
-            ### I believe I am the right person for the job.
-            Agile, versitile and independent when it comes to learning new skills and abilities.
+            - It is interesting, and the perfect mix between everything I love doing.
+        ''')
 
-            Proactive team member with the ability to walk the extra mile, lead and be led.
+with st.expander('Why me?'):
+        st.markdown('''
+        #### I believe I am the right person for the job.
 
-            Data Science, cross-functionality teams and versitile learning are my passion.
+        - Agile, versitile, and independent when it comes to learning new skills and abilities.
 
-            Modesty and will to learn.
+        - Proactive team member with the ability to walk the extra mile, lead and be led.
 
-            ### You will find here:
-            1. My current project- Amazon rainforest illegal activity monitor, that will actually be deployed in cooparation with NGOs from Peru, in order to assist them.
-            2. The final project in a machine learning program- A UI that allows you to sketch, and transform your sketch into an image, build with my amazing team at "Le Wagon".
-            3. A tool that I built for my self, based on GPT3, for optimizing job applications.
-            4. Just a short description of my current contract in NLP, because it is protected with an NDA.                5. Summary of my social enterprenaurship national projects.
-            6. Certifications, courses and University honors.
-            7. References.
-            ''')
+        - Data Science, cross-functionality teams and never-ending learning are my passion.
 
+        - Modesty and the will to learn.
+
+        ''')
+
+with st.expander("Website's contents"):
+    st.markdown('''
+    #### I understand that a junior shouldn't be a liability, but one of the assets. 
+    #### In order to show you what I can bring to the table, you would find here:
+    1. My current project- Amazon rainforest illegal activity monitor, 
+    that will actually be deployed in cooparation with NGOs from Peru, in order to assist them.
+    
+    2. The final project in a machine learning program- 
+    A UI that allows you to sketch, and transform your sketch into an image, 
+    build with my amazing team at "Le Wagon".
+    
+    3. A tool that I built for my self, based on GPT3, for optimizing job applications.
+    
+    4. Just a short description of my current contract in NLP, because it is protected with an NDA.                
+    
+    5. Summary of my social enterprenaurship national projects.
+    
+    6. Certifications, courses and University honors.
+    
+    7. References.
+    ''')
+
+           
 with open("other/resume.pdf", "rb") as pdf_file:
     resume = pdf_file.read()
 
