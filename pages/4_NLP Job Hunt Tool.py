@@ -100,13 +100,9 @@ with pdf_tab:
 
     token = st.text_input('What is your openai api token or given password?')
 
-    if token is not None:
-
-        if (len(token) > 15) & (token[:2] == 'sk'):
-            openai.api_key = token
-        else:
-            st.warning('Wrong key!')
-
+    if (len(token) > 15) & (token[:2] == 'sk'):
+        openai.api_key = token
+        
         ##In the private repository holding the website the part with the passwords is here
 
 
