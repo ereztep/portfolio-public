@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from PIL import Image
+from utils.general_utils import present_photos
 
 st.set_page_config(
     page_title='University, Courses, Achievements',
@@ -13,19 +14,6 @@ st.header('My Certifications')
 #The idea with this structure was to make it more maintainable in case
 # I would want to add pictures to certain
 #Categories, or add categories, etc.
-
-def present_photos(category_directory_path):
-
-    images = [img for img in os.listdir(category_directory_path)]
-
-    cols = st.columns(2)
-
-    for i, image in enumerate(images):
-        image_path = f'{category_directory_path}/{image}'
-        with cols[i%2]:
-            st.image(image_path, image.split('.')[0], 300, 150)
-
-    return None
 
 
 categories = ['Academic', 'Data', 'Web', 'Social Entrepreneurship', 'Other']

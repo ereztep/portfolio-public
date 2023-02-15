@@ -4,9 +4,7 @@ other/*
 !other/resume.pdf
 !other/cover_letter.pdf
 productions/
-bucket/Sketchy/
+bucket/Sketchy/data
 sketchy_production/
-!sketchy_production/fastapi_sketchy.py
-!sketchy_production/Docekrfile
 .env
 .envrc

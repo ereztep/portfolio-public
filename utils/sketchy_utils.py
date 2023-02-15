@@ -1,3 +1,7 @@
+
+def normalize_labels(label):
+    return label.capitalize().replace("_", " ")
+
 def gcs_list_folders(bucket, prefix="", delimeter="/", guess_lexicographically_last_item="~", gcs_client=None):
     folders = set()
     prefix_parts = prefix.split(delimeter)

@@ -7,9 +7,7 @@ import pandas as pd
 import os
 import requests
 from google.cloud import storage
-from gcs_helper import gcs_list_folders
-from gcs_helper import gcs_list_files
-from gcs_helper import gcs_download_image_bytes
+from utils.sketchy_utils import *
 from cv2 import resize
 from PIL import Image
 
@@ -64,13 +62,12 @@ api_url = 'https://sketchy2-qrozxtxbpa-zf.a.run.app'
 prediction_url = api_url + '/classify'
 requests.get(api_url) #to activate container
 demo_video_url = 'https://youtu.be/bJIvyjlmfcU'
-sketchy_url = 'https://github.com/ereztep/portfolio-site/blob/main/pages/3_Sketch%20To%20Image%20Transformer.py'
+sketchy_url = 'https://github.com/ereztep/portfolio-public/blob/main/pages/3_Sketch%20To%20Image%20Transformer.py'
 loss_function_url = 'bucket/Sketchy/triplet_loss.png'
 feature_space_url = 'bucket/Sketchy/feature_space.JPG'
+research_repo = 'https://github.com/CDOTAD/SketchyDatabase'
 
 
-def normalize_labels(label):
-    return label.capitalize().replace("_", " ")
 
 df = None
 
@@ -301,8 +298,8 @@ with st.expander('Sketch to Image Transformer UI'):
                         st.image(third_pred[np.random.randint(0, len(third_pred))].download_as_bytes(), width = witdh)
                         st.image(third_pred[np.random.randint(0, len(third_pred))].download_as_bytes(), width = witdh)
 
-with st.expander("Sketch Duals UI"):
-    st.markdown("""## Sketch Duall! :crossed_swords:""")
+with st.expander("Sketch Duels UI"):
+    st.markdown("""## Sketch Duel! :crossed_swords:""")
     st.write('Streamlit canvas currently is not supported inside the tabs, I decided to put it here as concept demonstration')
 
 
@@ -398,43 +395,53 @@ with intro_tab:
             st.video(demo_video_url)
 
     st.markdown(f'''
-                The model was trained on TAU dataset, which contain 125 categories, with photos and sketches for each.
+                Our main data set was "Sketchy" dataset, that contains 125 categories, and has photos and 6 different sketches for each photo.
+                We also used "TU Berlin" dataset, that has 250 categories of sketches, at the beginning of the training.
+                Humans reach about 77% when trying to classifing these skethces, and our classifier reached 88% (after limited resources training)
                 This is how it works:
-                1. You sketch is being sent to a docker image in google containery service.
-                
+
+                1. You sketch is being sent to a docker container in google containery service.
+
                 2. It is being processed, and sent into 2 models:
                     * Categorical classification model to one of the 125 categories in the data set.
                     * Model that casts it into a common photos-sketches feature space, produced by a triplet model.
-                
+
                 3. The api sends back the classification results and the names of the closest images (If existing)
-                
+
                 4. We take the images from a bucket that is contained on google cloud and present it to you.
                 [code is available here]({sketchy_url}).
+
+                The project was inspired by [this]({research_repo}) repository.
                 ''')
 
 with model_tab:
     with st.expander('Loss Function'):
-        
-        st.latex('L(A, P, N) = max(‖f(A) - f(P)‖² - ‖f(A) - f(N)‖² + margin, 0)')
+
+        st.latex('''L(A, P, N) =
+        max(‖f(A) - f(P)‖² - ‖f(A) - f(N)‖² + margin, 0)
+        ''')
 
         st.markdown('''
         We created a custom triplet loss function.
-        We tried to minimize the difference between the anchor photo and a related sketch, while maximizing the distance between that photo and an unrelated sketch of the same category, when all are broadcasted to the final feature space.
-        This is how it looks: 
+        We tried to minimize the difference between the anchor sketch the image that it was drawn from, while maximizing the distance between that sketch and an unrelated photo of the same category, when all are broadcasted to the final feature space.
+        This is how it looks:
         ''')
-        
+
         st.image(loss_function_url)
-    
+
     with st.expander('Model Architecture'):
         st.markdown('''
-        - One model was a ResNet50 that was trained to classify the sketches to one of 125 categories (All layers).
+        - Retrained ResNet50 model for sketchs classification.
+        - Retrained ResNet50 model for photos classification.
+        - The activation of the top layers of each model were changed to "linear' to generate feature vectors.
+        - These modified models were then put in siamese triplet network, and the siamese layers then were trained with the loss function described avbove.
         - The other one was a siamese network with the loss function described above (code name "Silvi"). That model projects the sketch into a sketch-photo feature space, that looks like this:
         ''')
         st.image(feature_space_url, '', 400)
         st.markdown('''
         - After that, the closest images to the sketch in the feature space are being sent to the UI, that presents them to the user.
         ''')
-    
+
     with st.expander('Production'):
         st.markdown('''
         - All of the photos and sketches were held in a google bucket and were pulled from there for training.
@@ -447,7 +454,7 @@ with model_tab:
         - A docker container with Uvicorn server, the API and both models was pushed to google containery service and gets requests from there.
         - The sketch is sent to the container using an API, and streamlit page pulls the relevant images from the bucket to present them.
         ''')
-    
+
 with future_tab:
     st.markdown('''
                 ### Possible improvements to this page will be:
